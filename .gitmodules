@@ -1,0 +1,15 @@
+[submodule "bibfile"]
+	path = bibfile
+	url = git@github.com:ivotron/bibfile.git
+[submodule "latex-files"]
+	path = latex-files
+	url = git@github.com:ivotron/latex-files.git
+[submodule "pandoc-templates"]
+	path = pandoc-templates
+	url = file:///Users/ivo/projects/pandoc-templates
+[submodule "docker-pandoc"]
+	path = docker-pandoc
+	url = file:///Users/ivo/projects/docker-pandoc
+[submodule "bibtools"]
+	path = bibtools
+	url = file:///Users/ivo/projects/bibtools

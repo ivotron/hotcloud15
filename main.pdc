@@ -1,0 +1,82 @@
+---
+title: "ConVol: A volume abstraction for containers"
+author:
+  - name: "Ivo Jimenez and Carlos Maltzahn"
+    affiliation: "University of California Santa Cruz"
+    email: "`{ivo,carlosm}@cs.ucsc.edu`"
+abstract: |
+  There is the need for a volume abstraction that can capture the 
+  storage requirements of an application that runs in a container. In 
+  this work we propose one. We illustrate the high-level properties 
+  that can be defined for volumes and delineate how they can be 
+  realized on a combination of a local (XFS) and distributed file 
+  system (Ceph).
+tags:
+  - workshop-paper
+  - hotstorage15
+category: pubs
+layout: paper
+geometry: margin=1in
+numbersections: true
+substitute-hyperref: true
+links-as-notes: true
+---
+
+# Introduction
+
+Containers have taken the cloud by storm. In merely 2 years, docker 
+has evolved from an early prototype to be considered a future rival of 
+well established cloud-computing technologies such as VMWare and Xen. 
+
+Containers are great to implement immutable services such as web 
+servers and in-memory KV stores. However, applications requiring 
+persistence break the "write once run everywhere" portability promise 
+of containers.
+
+The abstraction of a volume can help to deal with this issue. In this 
+paper we present _ConVol_, a container volume abstraction that can be 
+used to express the storage requirements of containerized 
+applications.
+
+The main features:
+
+  * Seamless transition from local/remote and dev/production 
+    environments.
+  * High-level specification format that allows for quickly defining 
+    the storage requirements of an application
+
+Challenges:
+
+  * Transparently move data between local and remote file system
+  * Ensure that high-level properties are provided with strong 
+    guarantees
+
+# Background
+
+![Distinct ways to look at storage from a container. The goal of our 
+work is to unify all through the ConVol 
+abstraction.](figures/volumes.png)
+
+# Specification
+
+The abstraction allows a developer to specify distinct properties such 
+as availability, performance, encryption, deduplication, compression, 
+among others.
+
+All of these at the level of a container. Example:
+
+```yaml
+app: database
+image: postgres:9.2
+volumes:
+  - name: volume1
+    size: 20G
+    path: /mnt/vol1
+    properties:
+      replicas: 3
+      caching: write-through
+      backup: delta
+      iops_read: 500
+      iops_write: 500
+      encryption: symmetric
+```
